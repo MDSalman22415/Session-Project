@@ -17,7 +17,7 @@ uv --version
 ### Step 2: Download the Project
 
 ```powershell
-git clone 
+git clone https://github.com/MDSalman22415/Session-Project.git
 cd YOUR_PROJECT_FOLDER
 ```
 
