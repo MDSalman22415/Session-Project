@@ -1,8 +1,8 @@
-git add README.md# ML Project Setup (Windows + VS Code)
+## Setup Guide (Windows + VS Code)
 
-### Step 1: Install UV
+### 1. Install UV
 
-Open the VS Code terminal (\`Ctrl + \`\`) and run:
+Open the VS Code terminal and run:
 
 ```powershell
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
@@ -14,58 +14,97 @@ Restart the terminal and verify:
 uv --version
 ```
 
-### Step 2: Download the Project
+
+### 2. Clone the Repository
 
 ```powershell
 git clone https://github.com/MDSalman22415/Session-Project.git
-cd YOUR_PROJECT_FOLDER
+cd Session-Project
 ```
 
-### Step 3: Install Python
+### 3. Install Python 3.12
 
 ```powershell
 uv python install 3.12
 ```
 
-### Step 4: Create the Virtual Environment
+### 4. Create the Virtual Environment
 
 ```powershell
 uv venv --python 3.12
 ```
 
-### Step 5: Install Project Libraries
+### 5. Install Project Dependencies
 
-If the project contains `requirements.txt`:
-
-```powershell
-uv pip install --python .venv\Scripts\python.exe -r requirements.txt
-```
-
-If the project contains `pyproject.toml` and `uv.lock`:
+If `pyproject.toml` and `uv.lock` are available:
 
 ```powershell
 uv sync
 ```
 
-Use the command matching the files in your repository.
+If using `requirements.txt` instead:
 
-### Step 6: Open the Project
+```powershell
+uv pip install --python ".venv\Scripts\python.exe" -r requirements.txt
+```
+
+### 6. Install Jupyter Notebook and IPython Kernel
+
+Run these commands inside the project environment:
+
+```powershell
+uv add jupyter ipykernel
+```
+
+If the project uses `requirements.txt` instead of `pyproject.toml`, run:
+
+```powershell
+uv pip install --python ".venv\Scripts\python.exe" jupyter ipykernel
+```
+
+### 7. Register the Python Kernel
+
+```powershell
+uv run python -m ipykernel install --user --name mi-hub --display-name "Python (MI HUB)"
+```
+
+### 8. Install VS Code Extensions
+
+Run the following commands if the VS Code CLI is available:
+
+```powershell
+code --install-extension ms-python.python
+code --install-extension ms-toolsai.jupyter
+```
+
+### 9. Open the Project
 
 ```powershell
 code .
 ```
 
-In VS Code, install the **Python** and **Jupyter** extensions from the Extensions panel if they are not already installed.
+Open `Titanic_End_to_End_ML_DL.ipynb`.
 
-### Step 7: Select the Notebook Kernel
+### 10. Select the Jupyter Kernel
 
-1. Open the `.ipynb` notebook.
-2. Click **Select Kernel**.
-3. Choose the Python interpreter inside `.venv`.
+1. Click **Select Kernel** in the notebook's top-right corner.
+2. Select **Python (MI HUB)** or the project's `.venv` Python interpreter.
+3. If prompted, trust the notebook only if you trust its source.
 4. Run the notebook cells from top to bottom.
 
-### Step 8: Dataset
+### 11. Verify the Kernel
 
-Download the required dataset if it is not included in the repository, and place it in the folder expected by the notebook.
+Run this cell in the notebook:
 
-**Important:** Keep `requirements.txt` or `pyproject.toml` updated with all libraries used by the project, including TensorFlow if the ANN notebook requires it. Users should not need to install each library separately.
+```python
+import sys
+print(sys.executable)
+```
+
+The path should point to the project's `.venv` environment.
+
+### 12. Dataset and Model Files
+
+Check that the required dataset files (`train.csv`, `test.csv`, and any other required files) are present in the repository before running the notebook. If a required file is missing, obtain it and place it in the location expected by the notebook.
+
+**Important:** Use the project's dependency versions to avoid compatibility warnings when loading saved models. Do not load model files from untrusted sources.
